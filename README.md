@@ -9,13 +9,3 @@
 
 A new flutter plugin project.
 
-## example使用
-
-在example 目录下新建文件: local_config.dart
-
-```
-/// 腾讯OCR生成的秘钥串
-const String SecretId = "xxxxxx"; 
-const String SecretKey = "xxxxxxx"; 
-
-```

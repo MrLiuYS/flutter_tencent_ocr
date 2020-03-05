@@ -1,16 +1,21 @@
+<!--
+ * @Description: 
+ * @Author: MrLiuYS
+ * @Date: 2020-03-05 10:25:15
+ * @LastEditors: MrLiuYS
+ * @LastEditTime: 2020-03-05 10:42:45
+ -->
 # flutter_tencent_ocr_example
 
 Demonstrates how to use the flutter_tencent_ocr plugin.
 
-## Getting Started
+## example使用
 
-This project is a starting point for a Flutter application.
+在example 目录下新建文件: local_config.dart
 
-A few resources to get you started if this is your first Flutter project:
+```
+/// 腾讯OCR生成的秘钥串
+const String SecretId = "xxxxxx"; 
+const String SecretKey = "xxxxxxx"; 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
