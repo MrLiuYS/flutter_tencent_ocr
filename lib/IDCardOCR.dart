@@ -3,9 +3,11 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-06 16:54:46
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 14:35:50
+ * @LastEditTime: 2020-03-09 15:54:22
  */
 import 'dart:convert' show json;
+
+import 'TencentOCRError.dart';
 
 ///https://cloud.tencent.com/document/api/866/33524
 class IDCardOCRRequest {
@@ -162,6 +164,8 @@ class IDCardOCRReponse {
   ///唯一请求 ID，每次请求都会返回。定位问题时需要提供该次请求的 RequestId
   String requestId;
 
+  TencentOCRError error;
+
   IDCardOCRReponse.fromParams(
       {this.address,
       this.advancedInfo,
@@ -191,10 +195,12 @@ class IDCardOCRReponse {
     requestId = jsonRes['RequestId'];
     sex = jsonRes['Sex'];
     validDate = jsonRes['ValidDate'];
+
+    error = jsonRes['Error'] == null ? null : TencentOCRError(jsonRes['Error']);
   }
 
   @override
   String toString() {
-    return '{"Address": ${address != null ? '${json.encode(address)}' : 'null'},"AdvancedInfo": ${advancedInfo != null ? '${json.encode(advancedInfo)}' : 'null'},"Authority": ${authority != null ? '${json.encode(authority)}' : 'null'},"Birth": ${birth != null ? '${json.encode(birth)}' : 'null'},"IdNum": ${idNum != null ? '${json.encode(idNum)}' : 'null'},"Name": ${name != null ? '${json.encode(name)}' : 'null'},"Nation": ${nation != null ? '${json.encode(nation)}' : 'null'},"RequestId": ${requestId != null ? '${json.encode(requestId)}' : 'null'},"Sex": ${sex != null ? '${json.encode(sex)}' : 'null'},"ValidDate": ${validDate != null ? '${json.encode(validDate)}' : 'null'}}';
+    return '{"Address": ${address != null ? '${json.encode(address)}' : 'null'},"AdvancedInfo": ${advancedInfo != null ? '${json.encode(advancedInfo)}' : 'null'},"Authority": ${authority != null ? '${json.encode(authority)}' : 'null'},"Birth": ${birth != null ? '${json.encode(birth)}' : 'null'},"IdNum": ${idNum != null ? '${json.encode(idNum)}' : 'null'},"Name": ${name != null ? '${json.encode(name)}' : 'null'},"Nation": ${nation != null ? '${json.encode(nation)}' : 'null'},"RequestId": ${requestId != null ? '${json.encode(requestId)}' : 'null'},"Sex": ${sex != null ? '${json.encode(sex)}' : 'null'},"ValidDate": ${validDate != null ? '${json.encode(validDate)}' : 'null'},"Error": $error}}';
   }
 }

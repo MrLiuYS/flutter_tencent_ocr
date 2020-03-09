@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 14:36:21
+ * @LastEditTime: 2020-03-09 15:57:10
  */
 import 'dart:async';
 import 'dart:convert';
@@ -14,55 +14,41 @@ import 'package:dio/dio.dart';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tencent_ocr/IDCardOCR.dart';
 import 'package:hex/hex.dart';
 
-import 'IDCardOCR.dart';
+///数据解析回调
+typedef T JsonParse<T>(dynamic data);
 
 class FlutterTencentOcr {
   static const MethodChannel _channel =
       const MethodChannel('flutter_tencent_ocr');
 
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
-  }
 
-  static Future iDCardOCR(
+
+
+
+  static Future<IDCardOCRReponse> iDCardOCR(
     String secretId,
     String secretKey,
     IDCardOCRRequest idCardOCRRequest,
   ) async {
-    Dio dio = Dio();
-
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.findProxy = (uri) {
-        // return "PROXY 192.168.3.13:8888";
-        return "PROXY 172.20.0.109:8888";
-      };
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) {
-        return true;
-      };
-    };
-
-    Map requestMap = generateRequestMap(secretId, secretKey, idCardOCRRequest);
-
-    var res = await dio.request('https://ocr.tencentcloudapi.com/',
-        options: Options(
-          headers: requestMap["headers"],
-          method: "POST",
-        ),
-        data: requestMap["body"]);
-
-    print(res.data.toString());
+    return ocrRequest(
+      secretId,
+      secretKey,
+      idCardOCRRequest,
+      jsonParse: (json) => IDCardOCRReponse(json),
+      findProxy: "172.20.0.109:8888",
+    );
   }
 
   /// 生成Authorization
-  static Map generateRequestMap(
+  /// findProxy是否开启抓包代理
+  static Future<T> ocrRequest<T>(
     String secretId,
     String secretKey,
-    IDCardOCRRequest requestData, {
+    requestData, {
+    JsonParse<T> jsonParse,
     String service = "ocr",
     String host = "ocr.tencentcloudapi.com",
     String algorithm = "TC3-HMAC-SHA256",
@@ -70,7 +56,8 @@ class FlutterTencentOcr {
     String action = "IDCardOCR",
     String version = "2018-11-19",
     String region = "ap-guangzhou",
-  }) {
+    String findProxy,
+  }) async {
     DateTime nowTime = DateTime.now();
     String date =
         "${nowTime.year}-${nowTime.month.toString().padLeft(2, '0')}-${nowTime.day.toString().padLeft(2, '0')}";
@@ -158,7 +145,41 @@ class FlutterTencentOcr {
       'Authorization': authorization,
     };
 
-    return {"headers": headers, "body": payloadJson};
+    try {
+      Dio dio = Dio();
+
+      if (findProxy != null) {
+        (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+            (client) {
+          client.findProxy = (uri) {
+            return "PROXY $findProxy";
+          };
+          client.badCertificateCallback =
+              (X509Certificate cert, String host, int port) {
+            return true;
+          };
+        };
+      }
+
+      Response<Map<String, dynamic>> response = await dio.post('https://$host/',
+          options: Options(
+            headers: headers,
+            method: "POST",
+          ),
+          data: payloadJson);
+
+      if (response.data["Response"] != null) {
+        if (jsonParse != null) {
+          return jsonParse(response.data["Response"]);
+        } else {
+          return response.data["Response"];
+        }
+      }
+    } on DioError catch (e, s) {
+      throw (Future.error(e));
+    } catch (e, s) {
+      throw (Future.error(e));
+    }
   }
 
   static String sha256Hex(String s) {
