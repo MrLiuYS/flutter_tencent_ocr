@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-06 16:54:46
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 14:02:56
+ * @LastEditTime: 2020-03-09 14:35:50
  */
 import 'dart:convert' show json;
 
@@ -31,7 +31,11 @@ class IDCardOCRRequest {
     this.config,
     this.imageBase64 = "",
     this.imageUrl = "",
-  });
+  }) {
+    if (this.config == null) {
+      this.config = IDCardOCRConfig.fromParams();
+    }
+  }
 
   factory IDCardOCRRequest(jsonStr) => jsonStr == null
       ? null
@@ -49,19 +53,7 @@ class IDCardOCRRequest {
 
   @override
   String toString() {
-    return '{"ImageUrl":${imageUrl != null ? '${json.encode(imageUrl)}' : 'null'}}';
-
-    return '{"CardSide": ${cardSide != null ? '${json.encode(cardSide)}' : 'null'},"Config": ${config != null ? '${config.toString()}' : 'null'},"ImageBase64": ${imageBase64 != null ? '${json.encode(imageBase64)}' : 'null'},"ImageUrl": ${imageUrl != null ? '${json.encode(imageUrl)}' : 'null'}}';
-  }
-  Map toJson() {
-    return {
-      // "CardSide": {cardSide != null ? '${json.encode(cardSide)}' : 'null'},
-      // "Config": {config != null ? '${config.toString()}' : 'null'},
-      // "ImageBase64": {
-      //   imageBase64 != null ? '${json.encode(imageBase64)}' : 'null'
-      // },
-      "ImageUrl": imageUrl 
-    };
+    return '{"CardSide": ${cardSide != null ? '${json.encode(cardSide)}' : 'null'},"Config": ${config != null ? '${json.encode(config.toString())}' : 'null'},"ImageBase64": ${imageBase64 != null ? '${json.encode(imageBase64)}' : 'null'},"ImageUrl": ${imageUrl != null ? '${json.encode(imageUrl)}' : 'null'}}';
   }
 }
 

@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 13:56:41
+ * @LastEditTime: 2020-03-09 14:36:21
  */
 import 'dart:async';
 import 'dart:convert';
@@ -66,7 +66,7 @@ class FlutterTencentOcr {
     String service = "ocr",
     String host = "ocr.tencentcloudapi.com",
     String algorithm = "TC3-HMAC-SHA256",
-    String contentType = "application/json",
+    String contentType = "application/json; charset=utf-8",
     String action = "IDCardOCR",
     String version = "2018-11-19",
     String region = "ap-guangzhou",
@@ -84,16 +84,7 @@ class FlutterTencentOcr {
 
     String signedHeaders = "content-type;host";
 
-    // var data =
-    //   '{"ImageUrl":"http://otimg.nongfadai.com/lambda/credit/20191217/5df8971a34c3a334bcbf1fca?Expires=1792572600&OSSAccessKeyId=ViZXnhMBs433o31B&Signature=9uLWogTYBbcMU1tTQNZEsGSTKOw%3D&x-oss-process=image%2Fresize%2Cm_lfit%2Cw_1920%2Ch_1920%2Fquality%2Cq_60%2Fformat%2Cjpg"}';
-
-    // Map map = {
-    //   "ImageUrl":
-    //       "http://otimg.nongfadai.com/lambda/credit/20191217/5df8971a34c3a334bcbf1fca?Expires=1792572600&OSSAccessKeyId=ViZXnhMBs433o31B&Signature=9uLWogTYBbcMU1tTQNZEsGSTKOw%3D&x-oss-process=image%2Fresize%2Cm_lfit%2Cw_1920%2Ch_1920%2Fquality%2Cq_60%2Fformat%2Cjpg"
-    // };
-
-    String payloadJson =json.encode(requestData.toJson());
-
+    String payloadJson = requestData.toString();
     print("payloadJson :  $payloadJson\n\n");
 
     var payload = sha256.convert(utf8.encode(payloadJson));

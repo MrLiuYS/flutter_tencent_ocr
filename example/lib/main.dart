@@ -100,17 +100,17 @@ class _MyAppState extends State<MyApp> {
       "Host": "ocr.tencentcloudapi.com",
       "X-TC-Action": "IDCardOCR",
       "X-TC-RequestClient": "APIExplorer",
-      "X-TC-Timestamp": "1583733267",
+      "X-TC-Timestamp": "1583734688",
       "X-TC-Version": "2018-11-19",
       "X-TC-Region": "ap-guangzhou",
       "X-TC-Language": "zh-CN",
       "Content-Type": "application/json",
       "Authorization":
-          "TC3-HMAC-SHA256 Credential=AKIDRSEl0ynCYdU5QU8n7F9rKXUAcswllyHO/2020-03-09/ocr/tc3_request, SignedHeaders=content-type;host, Signature=92ad2a7a5fa599219183abc853600916f0cb332e89d548a394cdd27954d15975",
+          "TC3-HMAC-SHA256 Credential=AKIDRSEl0ynCYdU5QU8n7F9rKXUAcswllyHO/2020-03-09/ocr/tc3_request, SignedHeaders=content-type;host, Signature=7216c409fd4ad846f789253d2abf43b16dd95c780169b3e453769d5a23531865"
     };
 
     var data =
-       json.encode( {"ImageUrl": "http://otimg.nongfadai.com/lambda/credit/20191217/5df8971a34c3a334bcbf1fca?Expires=1792572600&OSSAccessKeyId=ViZXnhMBs433o31B&Signature=9uLWogTYBbcMU1tTQNZEsGSTKOw%3D&x-oss-process=image%2Fresize%2Cm_lfit%2Cw_1920%2Ch_1920%2Fquality%2Cq_60%2Fformat%2Cjpg"});
+      '{"ImageUrl": "http://otimg.nongfadai.com/lambda/credit/20191217/5df8971a34c3a334bcbf1fca?Expires=1792572600&OSSAccessKeyId=ViZXnhMBs433o31B&Signature=9uLWogTYBbcMU1tTQNZEsGSTKOw%3D&x-oss-process=image%2Fresize%2Cm_lfit%2Cw_1920%2Ch_1920%2Fquality%2Cq_60%2Fformat%2Cjpg"}';
 
     var res = await dio.post('https://ocr.tencentcloudapi.com/',
         options: Options(headers: headers), data: data);
