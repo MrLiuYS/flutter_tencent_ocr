@@ -11,7 +11,6 @@ import 'package:flutter_tencent_ocr/GeneralOCRRequest.dart';
 
 import 'local_config.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -50,6 +49,10 @@ class _MyAppState extends State<MyApp> {
                 OutlineButton(
                   onPressed: bizLicenseOCR,
                   child: Text("营业执照"),
+                ),
+                OutlineButton(
+                  onPressed: otherOCR,
+                  child: Text("其他识别"),
                 ),
               ]),
             )
@@ -103,8 +106,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future bizLicenseOCR() async {
-    final ByteData imageBytes =
-        await rootBundle.load('assets/images/biz.png');
+    final ByteData imageBytes = await rootBundle.load('assets/images/biz.png');
 
     FlutterTencentOcr.bizLicenseOCR(
       SecretId,
@@ -112,6 +114,27 @@ class _MyAppState extends State<MyApp> {
       GeneralOCRRequest.fromParams(
           imageBase64: base64Encode(imageBytes.buffer.asUint8List())),
     ).then((onValue) {
+      setState(() {
+        _message = onValue.toString();
+      });
+    }).catchError(
+      (error) {
+        setState(() {
+          _message = error;
+        });
+      },
+    );
+  }
+
+  Future otherOCR() async {
+    
+    final ByteData imageBytes = await rootBundle.load('assets/images/biz.png');
+
+    Map map = {"ImageBase64": base64Encode(imageBytes.buffer.asUint8List())};
+
+    FlutterTencentOcr.ocrRequest(
+            SecretId, SecretKey, "BizLicenseOCR", jsonEncode(map))
+        .then((onValue) {
       setState(() {
         _message = onValue.toString();
       });

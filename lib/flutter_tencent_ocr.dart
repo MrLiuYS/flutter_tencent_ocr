@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 16:43:40
+ * @LastEditTime: 2020-03-09 17:01:04
  */
 import 'dart:async';
 import 'dart:convert';
@@ -23,7 +23,7 @@ import 'package:hex/hex.dart';
 typedef T JsonParse<T>(dynamic data);
 
 class FlutterTencentOcr {
-
+  ///营业执照
   static Future<BizLicenseOCRResponse> bizLicenseOCR(
     String secretId,
     String secretKey,
@@ -33,12 +33,13 @@ class FlutterTencentOcr {
       secretId,
       secretKey,
       "BizLicenseOCR",
-      generalOCRRequest,
+      generalOCRRequest.toString(),
       jsonParse: (json) => BizLicenseOCRResponse(json),
       findProxy: "172.20.0.109:8888",
     );
   }
 
+  ///银行卡
   static Future<BankCardOCRResponse> bankCardOCR(
     String secretId,
     String secretKey,
@@ -48,12 +49,13 @@ class FlutterTencentOcr {
       secretId,
       secretKey,
       "BankCardOCR",
-      generalOCRRequest,
+      generalOCRRequest.toString(),
       jsonParse: (json) => BankCardOCRResponse(json),
       findProxy: "172.20.0.109:8888",
     );
   }
 
+  ///身份证
   static Future<IDCardOCRResponse> iDCardOCR(
     String secretId,
     String secretKey,
@@ -63,19 +65,19 @@ class FlutterTencentOcr {
       secretId,
       secretKey,
       "IDCardOCR",
-      idCardOCRRequest,
+      idCardOCRRequest.toString(),
       jsonParse: (json) => IDCardOCRResponse(json),
       findProxy: "172.20.0.109:8888",
     );
   }
 
-  /// 生成Authorization
+  /// 发起请求
   /// findProxy是否开启抓包代理
   static Future<T> ocrRequest<T>(
     String secretId,
     String secretKey,
     String action,
-    requestData, {
+    requestDataJson, {
     JsonParse<T> jsonParse,
     String service = "ocr",
     String host = "ocr.tencentcloudapi.com",
@@ -98,7 +100,7 @@ class FlutterTencentOcr {
 
     String signedHeaders = "content-type;host";
 
-    String payloadJson = requestData.toString();
+    String payloadJson = requestDataJson;
     print("payloadJson :  $payloadJson\n\n");
 
     var payload = sha256.convert(utf8.encode(payloadJson));
