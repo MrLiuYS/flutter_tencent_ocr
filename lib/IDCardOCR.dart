@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-06 16:54:46
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 16:38:45
+ * @LastEditTime: 2020-03-09 17:12:09
  */
 import 'dart:convert' show json;
 
@@ -11,9 +11,6 @@ import 'TencentOCRError.dart';
 
 ///https://cloud.tencent.com/document/api/866/33524
 class IDCardOCRRequest {
-  ///公共参数，本接口取值：IDCardOCR
-  String action;
-
   ///FRONT：身份证有照片的一面（人像面），
   ///BACK：身份证有国徽的一面（国徽面），
   ///该参数如果不填，将为您自动判断身份证正反面。
@@ -28,7 +25,6 @@ class IDCardOCRRequest {
   String imageUrl;
 
   IDCardOCRRequest.fromParams({
-    this.action = "IDCardOCR",
     this.cardSide = "",
     this.config,
     this.imageBase64 = "",
@@ -46,7 +42,6 @@ class IDCardOCRRequest {
           : IDCardOCRRequest._fromJson(jsonStr);
 
   IDCardOCRRequest._fromJson(jsonRes) {
-    action = jsonRes['Action'] ?? action;
     cardSide = jsonRes['CardSide'] ?? cardSide;
     config = jsonRes['Config'] ?? config;
     imageBase64 = jsonRes['ImageBase64'] ?? imageBase64;

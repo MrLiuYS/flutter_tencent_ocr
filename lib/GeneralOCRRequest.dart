@@ -3,15 +3,12 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-09 15:58:50
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 16:28:21
+ * @LastEditTime: 2020-03-09 17:12:33
  */
 import 'dart:convert' show json;
 
 ///https://cloud.tencent.com/document/api/866/33524
 class GeneralOCRRequest {
-  ///公共参数，本接口取值：
-  String action;
-
   ///图片的 Base64 值,图片的 ImageUrl、ImageBase64 必须提供一个，如果都提供，只使用 ImageUrl。
   String imageBase64;
 
@@ -19,7 +16,6 @@ class GeneralOCRRequest {
   String imageUrl;
 
   GeneralOCRRequest.fromParams({
-    this.action = "",
     this.imageBase64 = "",
     this.imageUrl = "",
   });
@@ -31,7 +27,6 @@ class GeneralOCRRequest {
           : GeneralOCRRequest._fromJson(jsonStr);
 
   GeneralOCRRequest._fromJson(jsonRes) {
-    action = jsonRes['Action'] ?? action;
     imageBase64 = jsonRes['ImageBase64'] ?? imageBase64;
     imageUrl = jsonRes['ImageUrl'] ?? imageUrl;
   }
