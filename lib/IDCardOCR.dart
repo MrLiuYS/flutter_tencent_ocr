@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-06 16:54:46
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 15:54:22
+ * @LastEditTime: 2020-03-09 16:38:45
  */
 import 'dart:convert' show json;
 
@@ -122,7 +122,7 @@ class IDCardOCRConfig {
   }
 }
 
-class IDCardOCRReponse {
+class IDCardOCRResponse {
   ///姓名（人像面）
   String name;
 
@@ -166,7 +166,7 @@ class IDCardOCRReponse {
 
   TencentOCRError error;
 
-  IDCardOCRReponse.fromParams(
+  IDCardOCRResponse.fromParams(
       {this.address,
       this.advancedInfo,
       this.authority,
@@ -178,13 +178,13 @@ class IDCardOCRReponse {
       this.sex,
       this.validDate});
 
-  factory IDCardOCRReponse(jsonStr) => jsonStr == null
+  factory IDCardOCRResponse(jsonStr) => jsonStr == null
       ? null
       : jsonStr is String
-          ? IDCardOCRReponse._fromJson(json.decode(jsonStr))
-          : IDCardOCRReponse._fromJson(jsonStr);
+          ? IDCardOCRResponse._fromJson(json.decode(jsonStr))
+          : IDCardOCRResponse._fromJson(jsonStr);
 
-  IDCardOCRReponse._fromJson(jsonRes) {
+  IDCardOCRResponse._fromJson(jsonRes) {
     address = jsonRes['Address'];
     advancedInfo = jsonRes['AdvancedInfo'];
     authority = jsonRes['Authority'];

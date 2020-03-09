@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dio/adapter.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -14,11 +11,6 @@ import 'package:flutter_tencent_ocr/GeneralOCRRequest.dart';
 
 import 'local_config.dart';
 
-import 'package:convert/convert.dart';
-import 'package:crypto/crypto.dart';
-import "package:hex/hex.dart";
-
-import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 

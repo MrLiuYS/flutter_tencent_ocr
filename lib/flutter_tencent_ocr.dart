@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 16:33:52
+ * @LastEditTime: 2020-03-09 16:43:40
  */
 import 'dart:async';
 import 'dart:convert';
@@ -13,7 +13,6 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_tencent_ocr/BankCardOCRResponse.dart';
 import 'package:flutter_tencent_ocr/BizLicenseOCRResponse.dart';
 import 'package:flutter_tencent_ocr/GeneralOCRRequest.dart';
@@ -24,8 +23,6 @@ import 'package:hex/hex.dart';
 typedef T JsonParse<T>(dynamic data);
 
 class FlutterTencentOcr {
-  static const MethodChannel _channel =
-      const MethodChannel('flutter_tencent_ocr');
 
   static Future<BizLicenseOCRResponse> bizLicenseOCR(
     String secretId,
@@ -57,7 +54,7 @@ class FlutterTencentOcr {
     );
   }
 
-  static Future<IDCardOCRReponse> iDCardOCR(
+  static Future<IDCardOCRResponse> iDCardOCR(
     String secretId,
     String secretKey,
     IDCardOCRRequest idCardOCRRequest,
@@ -67,7 +64,7 @@ class FlutterTencentOcr {
       secretKey,
       "IDCardOCR",
       idCardOCRRequest,
-      jsonParse: (json) => IDCardOCRReponse(json),
+      jsonParse: (json) => IDCardOCRResponse(json),
       findProxy: "172.20.0.109:8888",
     );
   }
@@ -205,9 +202,11 @@ class FlutterTencentOcr {
           return response.data["Response"];
         }
       }
-    } on DioError catch (e, s) {
+    } on DioError catch (e) {
+      print(e);
       throw (Future.error(e));
-    } catch (e, s) {
+    } catch (e) {
+      print(e);
       throw (Future.error(e));
     }
   }
