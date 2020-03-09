@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_tencent_ocr/flutter_tencent_ocr.dart';
 import 'package:flutter_tencent_ocr/IDCardOCR.dart';
+import 'package:flutter_tencent_ocr/GeneralOCRRequest.dart';
 
 import 'local_config.dart';
 
@@ -51,11 +52,11 @@ class _MyAppState extends State<MyApp> {
                   child: Text("身份证识别"),
                 ),
                 OutlineButton(
-                  onPressed: idCardOCR,
+                  onPressed: bankOCR,
                   child: Text("银行卡"),
                 ),
                 OutlineButton(
-                  onPressed: idCardOCR,
+                  onPressed: bizLicenseOCR,
                   child: Text("营业执照"),
                 ),
               ]),
@@ -87,6 +88,47 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Future bankOCR() async {
+    final ByteData imageBytes =
+        await rootBundle.load('assets/images/bank.jpeg');
 
-  
+    FlutterTencentOcr.bankCardOCR(
+      SecretId,
+      SecretKey,
+      GeneralOCRRequest.fromParams(
+          imageBase64: base64Encode(imageBytes.buffer.asUint8List())),
+    ).then((onValue) {
+      setState(() {
+        _message = onValue.toString();
+      });
+    }).catchError(
+      (error) {
+        setState(() {
+          _message = error;
+        });
+      },
+    );
+  }
+
+  Future bizLicenseOCR() async {
+    final ByteData imageBytes =
+        await rootBundle.load('assets/images/biz.png');
+
+    FlutterTencentOcr.bizLicenseOCR(
+      SecretId,
+      SecretKey,
+      GeneralOCRRequest.fromParams(
+          imageBase64: base64Encode(imageBytes.buffer.asUint8List())),
+    ).then((onValue) {
+      setState(() {
+        _message = onValue.toString();
+      });
+    }).catchError(
+      (error) {
+        setState(() {
+          _message = error;
+        });
+      },
+    );
+  }
 }

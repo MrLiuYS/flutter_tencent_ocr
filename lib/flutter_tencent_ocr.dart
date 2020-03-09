@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 15:57:10
+ * @LastEditTime: 2020-03-09 16:33:52
  */
 import 'dart:async';
 import 'dart:convert';
@@ -14,6 +14,9 @@ import 'package:dio/dio.dart';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tencent_ocr/BankCardOCRResponse.dart';
+import 'package:flutter_tencent_ocr/BizLicenseOCRResponse.dart';
+import 'package:flutter_tencent_ocr/GeneralOCRRequest.dart';
 import 'package:flutter_tencent_ocr/IDCardOCR.dart';
 import 'package:hex/hex.dart';
 
@@ -24,9 +27,35 @@ class FlutterTencentOcr {
   static const MethodChannel _channel =
       const MethodChannel('flutter_tencent_ocr');
 
+  static Future<BizLicenseOCRResponse> bizLicenseOCR(
+    String secretId,
+    String secretKey,
+    GeneralOCRRequest generalOCRRequest,
+  ) async {
+    return ocrRequest(
+      secretId,
+      secretKey,
+      "BizLicenseOCR",
+      generalOCRRequest,
+      jsonParse: (json) => BizLicenseOCRResponse(json),
+      findProxy: "172.20.0.109:8888",
+    );
+  }
 
-
-
+  static Future<BankCardOCRResponse> bankCardOCR(
+    String secretId,
+    String secretKey,
+    GeneralOCRRequest generalOCRRequest,
+  ) async {
+    return ocrRequest(
+      secretId,
+      secretKey,
+      "BankCardOCR",
+      generalOCRRequest,
+      jsonParse: (json) => BankCardOCRResponse(json),
+      findProxy: "172.20.0.109:8888",
+    );
+  }
 
   static Future<IDCardOCRReponse> iDCardOCR(
     String secretId,
@@ -36,6 +65,7 @@ class FlutterTencentOcr {
     return ocrRequest(
       secretId,
       secretKey,
+      "IDCardOCR",
       idCardOCRRequest,
       jsonParse: (json) => IDCardOCRReponse(json),
       findProxy: "172.20.0.109:8888",
@@ -47,13 +77,13 @@ class FlutterTencentOcr {
   static Future<T> ocrRequest<T>(
     String secretId,
     String secretKey,
+    String action,
     requestData, {
     JsonParse<T> jsonParse,
     String service = "ocr",
     String host = "ocr.tencentcloudapi.com",
     String algorithm = "TC3-HMAC-SHA256",
     String contentType = "application/json; charset=utf-8",
-    String action = "IDCardOCR",
     String version = "2018-11-19",
     String region = "ap-guangzhou",
     String findProxy,
