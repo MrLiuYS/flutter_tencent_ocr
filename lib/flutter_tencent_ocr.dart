@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 17:01:04
+ * @LastEditTime: 2020-03-09 19:51:05
  */
 import 'dart:async';
 import 'dart:convert';
@@ -101,7 +101,7 @@ class FlutterTencentOcr {
     String signedHeaders = "content-type;host";
 
     String payloadJson = requestDataJson;
-    print("payloadJson :  $payloadJson\n\n");
+    // print("payloadJson :  $payloadJson\n\n");
 
     var payload = sha256.convert(utf8.encode(payloadJson));
 
@@ -119,7 +119,7 @@ class FlutterTencentOcr {
         '\n' +
         hashedRequestPayload;
 
-    print("canonicalRequest : $canonicalRequest \n\n");
+    // print("canonicalRequest : $canonicalRequest \n\n");
 
     // ************* 步骤 2：拼接待签名字符串 *************
     String credentialScope = "$date/$service/tc3_request";
@@ -134,7 +134,7 @@ class FlutterTencentOcr {
         "\n" +
         hashedCanonicalRequest.toString();
 
-    print("stringToSign : $stringToSign \n\n");
+    // print("stringToSign : $stringToSign \n\n");
 
     // ************* 步骤 3：计算签名 *************
 
@@ -145,7 +145,7 @@ class FlutterTencentOcr {
     String signature =
         HEX.encode(hmac256(secretSigning, stringToSign)).toLowerCase();
 
-    print("signature : $signature \n\n");
+    // print("signature : $signature \n\n");
 
     // ************* 步骤 4：拼接 Authorization *************
     String authorization = algorithm +
@@ -161,7 +161,7 @@ class FlutterTencentOcr {
         "Signature=" +
         signature;
 
-    print("authorization : $authorization");
+    // print("authorization : $authorization");
 
     var headers = {
       'Host': host,
@@ -203,12 +203,12 @@ class FlutterTencentOcr {
         } else {
           return response.data["Response"];
         }
+      } else {
+        throw (Future.error(DioError(error: "腾讯OCR数据下发格式异常")));
       }
     } on DioError catch (e) {
-      print(e);
       throw (Future.error(e));
     } catch (e) {
-      print(e);
       throw (Future.error(e));
     }
   }
