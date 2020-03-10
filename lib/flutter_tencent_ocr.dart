@@ -3,7 +3,7 @@
  * @Author: MrLiuYS
  * @Date: 2020-03-05 10:25:14
  * @LastEditors: MrLiuYS
- * @LastEditTime: 2020-03-09 19:51:05
+ * @LastEditTime: 2020-03-10 10:00:24
  */
 import 'dart:async';
 import 'dart:convert';
@@ -27,15 +27,16 @@ class FlutterTencentOcr {
   static Future<BizLicenseOCRResponse> bizLicenseOCR(
     String secretId,
     String secretKey,
-    GeneralOCRRequest generalOCRRequest,
-  ) async {
+    GeneralOCRRequest generalOCRRequest, {
+    String findProxy,
+  }) async {
     return ocrRequest(
       secretId,
       secretKey,
       "BizLicenseOCR",
       generalOCRRequest.toString(),
       jsonParse: (json) => BizLicenseOCRResponse(json),
-      findProxy: "172.20.0.109:8888",
+      findProxy: findProxy,
     );
   }
 
@@ -43,15 +44,16 @@ class FlutterTencentOcr {
   static Future<BankCardOCRResponse> bankCardOCR(
     String secretId,
     String secretKey,
-    GeneralOCRRequest generalOCRRequest,
-  ) async {
+    GeneralOCRRequest generalOCRRequest, {
+    String findProxy,
+  }) async {
     return ocrRequest(
       secretId,
       secretKey,
       "BankCardOCR",
       generalOCRRequest.toString(),
       jsonParse: (json) => BankCardOCRResponse(json),
-      findProxy: "172.20.0.109:8888",
+      findProxy: findProxy,
     );
   }
 
@@ -59,15 +61,16 @@ class FlutterTencentOcr {
   static Future<IDCardOCRResponse> iDCardOCR(
     String secretId,
     String secretKey,
-    IDCardOCRRequest idCardOCRRequest,
-  ) async {
+    IDCardOCRRequest idCardOCRRequest, {
+    String findProxy,
+  }) async {
     return ocrRequest(
       secretId,
       secretKey,
       "IDCardOCR",
       idCardOCRRequest.toString(),
       jsonParse: (json) => IDCardOCRResponse(json),
-      findProxy: "172.20.0.109:8888",
+      findProxy: findProxy,
     );
   }
 

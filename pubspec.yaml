@@ -1,6 +1,6 @@
 name: flutter_tencent_ocr
 description: Flutter plugin for tencent ocr,supports identification of ID cards, bank cards, business licenses, etc..
-version: 0.1.1
+version: 0.1.2
 author: mrliuys <qimeng083@gmail.com>
 homepage: https://github.com/MrLiuYS/flutter_tencent_ocr.git
 
